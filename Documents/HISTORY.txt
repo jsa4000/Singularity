@@ -1,0 +1,97 @@
+09.08.2016
+
+- Code Refactoring. All the code is trying to be simplified
+
+- New implementarion for the layers based on nodes instead. 
+  For each node some features have been defined:
+	- Each node can be connected with multiple nodes. (Input Nodes)
+	- The output will be computed based on the inputs of the connected input nodes. [See next constraint]
+	- Each node can only have one possible output shape for the connected nodes.
+	- A node can have multiple connected inputs shapes. These nodes will act as inputs nodes (initial state).
+		-> This is to differenciate between inputs nodes and output nodes
+	- A node can have an activation function and can share the params across the connected nodes that is attached to, as inputs nodes.
+
+10.08.2016
+
+- Added a call method for the nodes in order to clone the node but chaging the current configuration.
+	[UPDATE] This is no longer this way. Keras used the calls funcion for the objectst to set the inputs.
+
+- New implementationn for the Models. Models behave will change but they will share common features.
+	- Graph Models can have multiple inputs nodes in order to combine them to generate an output.
+		-> In this case the inputnodes will create a symbolic placeholder that will be passed through the model
+	- Overlay models by instance will restrict the use of the graph model to only use p_y_given_x
+	
+- Activation function has been created.
+	-> This function will be useful to compute values that comes from different sources or layer to do transformation.. merging, subsctract, etc..
+	-> In variational autoencoders a function is used within this layer to compute the sampling function from z_mean and z_log_std
+
+12.08.2016
+
+- Autoenconders are currently working. Variational autoencoders work properly following keras example.
+	-> Changes done from previous versions:
+		1. The call function from Node doesn't return a new object nor inititialize it. The objective if that the user can change the input source to another with the
+			data already trained.
+		2. Additional parameter has been added to build the model by compiling only the predcit function (from - to), because the user can build a graph that is already trained.
+			Loss function are not compiled anymore if the model hasn't got any configured.
+		3. Removed argmax function for the predict function inside build because sometimes is not required.
+			-> inder to compute the average or the total error the user may use the proper function.
+		4. Sum operation has been added when computing sampling activation function because theano's error when computing the gradient. 
+			-> This is a change made exclusvely done for the variational autoencoder sample. Theano gives an error when computing the gradient and auto-differenciation.
+				def vae_loss(x, x_decoded_mean):
+					xent_loss = S.binary_cross_entropy(x, x_decoded_mean)
+					kl_loss = - 0.5 * S.mean(1 + z_log_std.outputs - S.square(z_mean.outputs) - S.exp(z_log_std.outputs), axis=-1)
+					return S.sum(xent_loss + kl_loss)
+
+- Created a model like Vgg-16 and load the weights already trained from Keras framework.
+	-> This must be done because it's necessary for loading and saving the trainning sessions from the tests performed.
+
+19.08.2016
+
+- Classes mush inherit from BaseClass. This Base class will store all the attributes needed to create that class and finally creates attributes for each parameter.
+	-> The main construcutor will take the kwargs and store them in a dictionary of attrs with an underscore "_" used as prefix. This attbributes will be considered as private.
+	-> For each attrib (or param) an attr will be created using following functiona call from python.  
+			>> setattr(self, "_{}".format(key), self._attrs[key])
+
+	-> The way that this works in order to the child classes to be able to use this functinoality is at follows:
+		
+		# The class must inherits from Base Class
+		class ChildClass(BaseClass):
+			#constructor
+			# The constructor of the child classes could have several params folloed by **kwargs that will be passed to the base class to store the attribs.
+			#  1. In the params you could have new params(not included in parent classes): param1= None, param2 = None
+			#  2. Or you can have some params already defined in parent classes this class need to override the value: param3 = override3, param4 = override4
+			#
+			#  3. Inside the __init__ function first it must be gotten all the params passed in the function by using the function params = extract_args_kwargs(locals())
+			#		-> This function will return a dictionary with the list of all attributes. Also kwargs will be unpacked and extended to the new or overriden params.
+			#  4. Define all the new internal (private) params (without underscore) that can be used inside the class but not passed in the constructor.
+					-> The way this works is appending the new attribs to the dictionary returned in step #3  
+			#  5. Finally, perform the call to the parent contructor and using the dictionary as params to the __init__ method. (unpacking method will be used **params)
+
+			e.g.
+
+				def __init__(self, param1= None, param2 = None, param3 = override3, param4 = override4, **kwargs):
+					params = extract_args_kwargs(locals())
+					params["inputs"] = self._get_nodes(params["inputs"]) 
+					params["outputs"] = None
+					params["params"] = []
+					super(BaseNode, self).__init__(**params)
+
+- Implemented HDF5 module in order to save the models and the parameters trained. The module autamatically serialzie and deserialize any object to pass to the function.
+	-> Special behaviour have been given with the classes that inherits from BaseClass and the shared symbolic variables. 
+	-> The function will store the collecttions, list, object, etc depeending on the type. For this reason is mandatory to know if the attrib is a collection, collection with
+	complexes types inside the array, etc.. For each case the tool will decide if the must be stored as a group or as an attribute.
+	-> If BaseClass is detected then the module will store the class type object in order to finally cast the object into its proper type instance.	
+
+	e.g.
+		Save the object into a hdf5 file format
+		#hdf5.save("test.hdf", myobject, "root")
+
+		# Load the data object
+		myobject = hdf5.load("test.hdf")
+
+
+	NOTES:	This way to save the data is very useful and scalable because does  not depend on previous definitions or implementations changes inside the model. 
+			Also there are some constraints in using Pickle module because does not allow the serialization of callabe objects.
+
+
+- Visialization, cost, accuracy, etc...

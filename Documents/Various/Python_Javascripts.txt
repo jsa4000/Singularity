@@ -1,0 +1,2 @@
+https://jakevdp.github.io/blog/2013/06/01/ipython-notebook-javascript-python-communication/
+http://www.sohamkamani.com/blog/2015/08/21/python-nodejs-comm/

@@ -1,0 +1,197 @@
+-----------------
+- INITIAL NOTES -
+-----------------
+
+- Generative vs Discriminative
+
+	-> Generative algorithm: models how the data was generated in order to categorize a signal. It asks the question: based on my generation assumptions, which category is most likely to generate this signal?
+	
+	-> Discriminative algorithm: does not care about how the data was generated, it simply categorizes a given signal.
+
+ 
+ 
+ - Generative Adversarial Networks vs Variational Autoencoders
+ 
+ 
+ 
+
+
+
+--------------------
+- Machine Learning -
+--------------------
+
+- Supervised learning: The computer is presented with example inputs and their desired outputs, given by a "teacher", and the goal is to learn a general rule that maps inputs to outputs.
+- Unsupervised learning: No labels are given to the learning algorithm, leaving it on its own to find structure in its input. Unsupervised learning can be a goal in itself (discovering hidden patterns in data) or a means towards an end (feature learning).
+- Semi-supervised learning: Between supervised and unsupervised learning. Where the "teacher" gives an incomplete training signal: a training set with some (often many) of the target outputs missing.
+- Reinforcement learning: A computer program interacts with a dynamic environment in which it must perform a certain goal (such as driving a vehicle), without a teacher explicitly telling it whether it has come close to its goal. Another example is learning to play a game by playing against an opponent.
+
+
+Another categorization:
+
+- Classification: inputs are divided into two or more classes, and the learner must produce a model that assigns unseen inputs to one or more (multi-label classification) of these classes. This is typically tackled in a supervised way. Spam filtering is an example of classification, where the inputs are email (or other) messages and the classes are "spam" and "not spam".
+- Regression: also a supervised problem, the outputs are continuous rather than discrete.
+- Clustering: a set of inputs is to be divided into groups. Unlike in classification, the groups are not known beforehand, making this typically an unsupervised task.
+- Density estimation: finds the distribution of inputs in some space.
+- Dimensionality reduction: simplifies inputs by mapping them into a lower-dimensional space. Topic modeling is a related problem, where a program is given a list of human language documents and is tasked to find out which documents cover similar topics.
+
+-----------------------------------
+- Machine Learning vs Data Mining -
+-----------------------------------
+
+Machine learning and data mining often employ the same methods and overlap significantly. They can be roughly distinguished as follows:
+
+- Machine learning focuses on prediction, based on known properties learned from the training data.
+- Data mining focuses on the discovery of (previously) unknown properties in the data. This is the analysis step of Knowledge Discovery in Databases.
+
+--------------
+- Approaches -
+--------------
+
+- Supervised learning
+
+    AODE
+    Artificial neural network
+        Backpropagation
+        Autoencoders
+        Hopfield networks
+        Boltzmann machines
+        Restricted Boltzmann Machines
+        Spiking neural networks
+    Bayesian statistics
+        Bayesian network
+        Bayesian knowledge base
+    Case-based reasoning
+    Gaussian process regression
+    Gene expression programming
+    Group method of data handling (GMDH)
+    Inductive logic programming
+    Instance-based learning
+    Lazy learning
+    Learning Automata
+    Learning Vector Quantization
+    Logistic Model Tree
+    Minimum message length (decision trees, decision graphs, etc.)
+        Nearest Neighbor Algorithm
+        Analogical modeling
+    Probably approximately correct learning (PAC) learning
+    Ripple down rules, a knowledge acquisition methodology
+    Symbolic machine learning algorithms
+    Support vector machines
+    Random Forests
+    Ensembles of classifiers
+        Bootstrap aggregating (bagging)
+        Boosting (meta-algorithm)
+    Ordinal classification
+    Information fuzzy networks (IFN)
+    Conditional Random Field
+    ANOVA
+    Linear classifiers
+        Fisher's linear discriminant
+        Linear regression
+        Logistic regression
+        Multinomial logistic regression
+        Naive Bayes classifier
+        Perceptron
+        Support vector machines
+    Quadratic classifiers
+    k-nearest neighbor
+    Boosting
+    Decision trees
+        C4.5
+        Random forests
+        ID3
+        CART
+        SLIQ
+        SPRINT
+    Bayesian networks
+        Naive Bayes
+    Hidden Markov models
+
+- Unsupervised learning
+
+    Expectation-maximization algorithm
+    Vector Quantization
+    Generative topographic map
+    Information bottleneck method
+
+- Artificial neural network
+
+    Self-organizing map
+
+- Association rule learning
+
+    Apriori algorithm
+    Eclat algorithm
+    FP-growth algorithm
+
+- Hierarchical clustering
+
+    Single-linkage clustering
+    Conceptual clustering
+
+- Cluster analysis
+
+    K-means algorithm
+    Fuzzy clustering
+    DBSCAN
+    OPTICS algorithm
+
+- Outlier Detection
+
+    Local Outlier Factor
+
+- Semi-supervised learning
+
+    Generative models
+    Low-density separation
+    Graph-based methods
+    Co-training
+
+Reinforcement learning
+
+    Temporal difference learning
+    Q-learning
+    Learning Automata
+    SARSA
+
+- Deep learning
+
+    Deep belief networks
+    Deep Boltzmann machines
+    Deep Convolutional neural networks
+    Deep Recurrent neural networks
+    Hierarchical temporal memory
+	Stacked (de-noising) auto-encoders
+
+
+
+
+
+
+
+
+
+
+Acronyms
+
+DNN - Deep Neural Network
+CNN - Convolutional Neural Nework
+RNN - Recurrent Neural Network
+GAN - Generative Adversarial Network
+VAE - Variational Auto-encoders 
+PCA - Principal Component Analysis
+BNs - Bayesion Networks
+MCMC - Markoc Chain Monte Carlo
+SVM - Support Vector Machines
+
+
+
+
+
+
+Bayes: Fundamental theorem about Probabilistic P(X|Y) <-> P (Y|X)
+	- There are Bayesian Networks that rely the transitio between ont to another
+
+
+

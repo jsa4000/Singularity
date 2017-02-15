@@ -1,0 +1,130 @@
+****************
+ TODO: 
+****************
+
+1. HDF5 support [DONE]
+
+	- It migh be instesting to have support to this format file to save the weights and the params for the trained networks.
+	In order to implelemt this option I should add support to another already trainied networks like vgg16. See Keras implementation.
+
+	- A model cannot be cpikle because function objects cannot be serialized. So for instance a workaroud must be used instead. A solutionn is
+	to save the training with the params
+
+	UPDATE: Implemented a BaseClass in order to store the attribs more efficiently and clean when declaring classes.
+			This is also useful to serialize the data that are stored in a class that cannot be serialized using Pickle. 
+
+	EVOLUTION: This feature needs to be more accurated. In terms of implementation the module it's fine, unless the module has to be fixed. 
+	
+2. Visualization
+
+	- In order to get the visualizations for the networ, Each of the layer must implement a way to provide the visualization for its weights.
+	This is because the way the convolutional layers, dense layers or LSTM differe from each other.
+	 
+	- Another feauture could be the option to save custom views to use with the current model. With this I mean to generate some intermediate outputs
+	in order to see its visualizations. In some layers a flatten layer must be required.
+
+3. Input Layer [DONE]
+	
+	- See if the input layer is needed... Could be interesting to have this layer optionally.
+
+	UPDATE: Input layer now is not neccesary because the node automatically creates input node that automatically creates a placeholder when the model
+			do the forward propagation.
+			
+	EVOLUTION:	Don't really like sometimes the model gets an error when an input node noesn't implements a function and it really a node... maybe I need to
+				take another approach of how to create the inputs nodes.
+				Another evolutions is avoid to do something in the init function because in the reconstruction in the serializing process could exist problems. 
+
+4. Refactorizing Code [OPENED]
+
+	4.1 - First
+
+	- Comments. Add more comments to the code with descriptions and implementation.
+	- [DONE]Inputs and parameters for the function.  -> Think it's dode
+
+	- [PENDING] Add a boolean "trainable" attribute to the layer to allow the possibility to lock the actual weight to be not uopdating in the back propagation.
+		-> Some paramos could not be trainable at all, or not be used during some proces like the regularization so it's highly recommmended to have something
+		to get in a parameters could be used to something or not. 
+
+	- [DONE] Add a model class so a Networks could be defined with only the input layer and the output layer.
+		-> This is done by doing recursive call to back_propagarion methods through the net work. In most od the cases the inputs are not needed because can be obained
+		-> Trying to solve loop graphs by checking if any of the imputs coincide with the output.
+	- [DONE] Add a layer or some kind of support so a layer can receive more that one layer input... and also cannot contain any weight, only for the evaluation..
+		-> Each node can have several inputs. Also the weights can be shared between the inputs.
+		
+		NOTE: Here is some problems. Activation function must use several inputs source in order to generate the data and the outputs shape.
+			  The output shape must be decided by the activation function.
+			  In some cases the activation function could work as merging or appending the inputs. The more simple problem is that both inputs have the same shape.
+			  However if the inputs have different shapes then some times the node must decide the shape of the output taking the first input (for example).
+
+	UPDATE: Some cool features has been developed and refactorizedf from previous versions. Now convolutions, mnist, variational auto-encoders are supported 
+	because these functiona and model based on nodes instead layers. 
+	
+	4.2 - Second
+
+	- For the next version, more advanced features will be implemented in order to create more complex networks and extends the functionailty.
+	- Te code will be refactorized wiht the main focus on portability and to be shared between platforms. A great feature to be developed in
+	a future is to integrate the python API with Node.js to create more easily and visualize the nodes, graphs, models and all the elements so
+	a complete model can be configured from scratch and be trained.
+	- Also the results and the visualization will be an important part for the evolution
+
+5. Convolutional Layers [DONE]
+
+	- For convolutional layers it will be useful to know how de-convolutional layers work. However, up-sampling must be performed in order the get back to the
+	original size if maxpooling was previously applied.
+
+	- In Convolutional Neural Networks the process is the following;
+		- Original images normally have a shape like (None, 3, 32, 32) where images are 32x32 with 3 channels rgb. (None is because the image set)
+		- When a convolution is applied the number of features maps and the size of the filter is already known. In addition the number of channels 
+		or previous generated features maps must be specified. For example, in first convolution the convolution applied (wigth param) will be (32,4,5,5).
+		For the second convolution will be (8, 32, 3,3) and so on.
+		- The max pool means the image resulted in the convolution is going to be downsampled using the maximun value using the pooling shape specified.
+			- If the image is 31x31 and the max pool shape is 2x2, the result image after this operation will be 15x15. 
+			- If the image is 31x31 and the max pool shape is 3x3 the result image after this operation will be 10x10.
+		- Finally after the convolution and maxpooling operations a flatten operation mut be performed. This will mean all features map, and image pixels
+		will be flattened into an array of one dimension.
+
+		Note: a ZeroPadding could be applied before the convolution in order to not lose pixels during the kernel operation.
+			If kernel is 5x5 thi means the image resulted after the convolution will lose 2 pixels for each size. So a 32x32 image will be 28x28.
+
+	-> Test the code to be used with the VGG16 models from keras.
+		Also could be useful to load the wights and bias already trained from other models to save some time. 
+
+6. Auto-enconders [DONE]
+
+	- https://blog.keras.io/building-autoencoders-in-keras.html
+	- Auto-encoders in general can be achieved using regular netowrks already implemented. Basically, it requires to describe the inputs and outputs desired 
+	to build the auto-encoders. Decoders and encoders are easily build using standard layers. 
+		Input -> ReLu -> Sigmoid where sigmoid is the decoded representation
+	- Usually weights initializations for decoders are the transposed weights used for the encoders in the previsous steps.  
+	- Noise factor applied for the inputs are also is equivalent to the denoising autoencoders. When the fine-tunning or the cost function is evaluated the
+	original images will be used instead the noise ones.
+
+	-> Test 04. Variation autoencoder already works.
+	
+	
+7. Load model from JSON [PENDING]
+
+	- It would be useful to load a model using JSON code. This could be useful to share data between systems or web based applications.
+	
+			In [11]: class myobject(object):
+		    ....:     def __init__(self, name):
+		    ....:        self.name = name
+
+		    In [12]: x = myobject("pedro")
+
+			In [13]: print x.name
+			pedro
+
+			In [14]: y = eval("myobject(\"pedro\")")
+
+			In [15]: print y.name
+			pedro
+
+8. Boltzman Machines implementation.
+
+	- Implement a Boltzman machine model that could be used in conjuction for a Deep Belief Neworf and Generative Model.
+	- For this reason a Backward implementation has been added for each node than want to implement this behaviour.
+	
+
+
+	 

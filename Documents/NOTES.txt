@@ -1,0 +1,98 @@
+********************************
+**  		NOTES			****
+********************************
+
+----------------------
+ ENCAPSULATION		--
+----------------------
+
+	- The best way to put this into a context in trying to think in what is the most intuitive way in create those functions, layers, models, etc.. from the point 
+	of view of the users and scalability.
+	
+	- Nodes and Models must be encapsulated in order to generalize all possible uses cases.
+	
+	- The same thing happend when dealing with other types of elements such as Cost function,regulators, optimizers, 
+	
+	- All those elements must be organized and created in a way will be simple to use and simple to create new functionality using the same structure.
+	
+----------------------
+DEFINITIONS		-----
+----------------------
+
+	1. NODES:
+	----------------------
+
+
+
+	2. CHILD NODES (LAYERS, BOLTZMAN MACHINE NODES, COMBINATORS):
+	----------------------
+
+	Child nodes could be anything that inherits from the node class, since it's going to be particular for each neural network. This will depend on the neural network model type 
+	(sequential-model, graph-model, deep-belief-networks, auto-encoders, restricted-boltzman-machines etc..) and the type of data that will be generated at the end (discriminative 
+	models, generative models).	
+	
+	How ever some models can share the same type of nother althrough they are using diferent models and generating diferent types of outputs. For example dense layers, 
+	convolutional layers, activation layers, zer-padding, etc.. could be used inside a graph-model, sequential-model, auto-eccoder, etc.  
+
+	However, Restricted Boltzman Machines node is a particular node that travels forwards and backwards, using different bias but sharing the same Weight. Since the inputs and 
+	outputs could have different sizes, the weights will be the transposed matrix in back-propagation (I mean the gibbs oepration with the encode and decode phase).
+
+	
+
+
+	3. MODELS:
+	----------------------
+
+
+
+	4. OPTIMIZERS:
+	----------------------
+
+
+	5. REGULARIZERS: 
+	----------------------	
+	
+	
+	6. FUNCTIONS:
+	----------------------
+
+	7. COST_FUNCTIONS:
+	----------------------
+
+	The cost function are commonly used in the trainning phase of a Neural Network. This cost function basically evaluates the overall result (cost) using the current outputs
+	with the test data. Cost functions are mostly used to cumpute the error or max-likelihood of a trained model. From this cost function or oftenly named loss function. Because
+	we are using vectorization, this cost function is the mean between all the predicte-outputs ans test-data of a batch.
+	Fomr this point the model will use back-propagation and by using gradient descent all the parameters inside the layers will be updated. See optimizers to see how this
+	updates work and how can be optimized.
+
+		-> In simplest network this cost function will need only two parameters. The outputs, or the predicted outouts, and the test data that are passed by 
+		parameters. Finally the cost fuction will be computed in the training process.
+		-> Some times the cost function will require some arguments. For this reason the way to think on this function is by default let the network use the final outputs of
+		the network, but the user previously need to set the rest of inputs (node outsputs from the point of view of the network) that will be used to compute the cost function.
+		One example is the variation auto-encoder.
+		 
+			# 1. Simple case: 
+				
+				#Simply pass the function that need only two params, x for predicted params and y for test data.
+				model (cost = my_coost_function )
+
+			# 2. Complex case: 
+			
+				#Create the cost function passing the two variables to the function. Returns a function but storing both needed values
+				my_complex_function = complex_cost_function(variable1, variable2)
+				# Create the model na pass the function create
+				model (cost = my_complex_function )
+
+				-> Internally the inner function returned in my_complex_function will use two parameters to compute the cost, because the other params have been already
+				stored and ready to use
+		 
+
+	8. MATRIX_FUNCTIONS
+	----------------------
+
+	Usually these functions will be specific for the backend being used. The way a backend manipulates the data will depend on the performances of the system. So depending 
+	if the machine are using CPU, GPU, cache, symbolic variables, etc.. it will change.
+
+		-> This will be done in separate modules and importing only the used one.
+		-> This is going to be updated for new backend or new functions. There is a file called template_backend.py that show all the functions that a Backend must implement
+		in order to work properly with the current API.

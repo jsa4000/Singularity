@@ -1,0 +1,228 @@
+##########################################################################################
+##########################################################################################
+
+**********************************
+********** TECHNOLOGIES **********
+**********************************
+
+	- Following Frameworks are going to be used for the implementation:
+
+	---------------
+	- Back-end 
+	---------------
+	
+		For the Server side, MEAN STACK are going to be used. (See Mean.io web site for further information)
+		The MAIN STACK contains the following technologies: 
+		
+			1. MongoDB: Data Base NonSQL
+			2. ExpressJS: Framework based on NodeJS (Middle ware based architecture)
+			3. AngularJS: Client Side framework.
+			4. NodeJS: REST based architecture using HTTP (with Mongoose and Passport additional modules)
+
+		Links:
+			 https://www.safaribooksonline.com/blog/2014/03/10/express-js-middleware-demystified/
+			 http://qnimate.com/express-js-middleware-tutorial/
+			 http://www.tutorialspoint.com/nodejs/nodejs_restful_api.htm
+			
+	----------------			
+	- Front-end
+	----------------
+		
+		For the client side: HTML 5.0, Java-script and AngularJS framework will be used.
+			- Some dependencies for manipulating Nodes or graphs will be used. 
+	
+		NOTE: Future versions using ELECTRON (nodejs framework) will be used for standalone applications. 
+
+	----------------			
+	- Processing -
+	----------------
+	
+		Python will be the technology of choice used to create the nodes to do the final computations.
+		This architecture is independent from the technology point of view and used for the computation, so C, R and other languages could be also used.
+	
+		NOTE: Future versions will allow the possibility to launch a model and visualize the weights, outputs, etc.. in Real time.
+	
+		
+	Links Tutorials:
+	
+		https://scotch.io/tutorials/creating-a-single-page-todo-app-with-node-and-angular
+		https://www.safaribooksonline.com/blog/2014/03/10/express-js-middleware-demystified/
+		http://adrianmejia.com/blog/2014/09/28/angularjs-tutorial-for-beginners-with-nodejs-expressjs-and-mongodb/
+		http://adrianmejia.com/blog/2014/10/01/creating-a-restful-api-tutorial-with-nodejs-and-mongodb/
+		http://adrianmejia.com/blog/2014/10/03/mean-stack-tutorial-mongodb-expressjs-angularjs-nodejs/
+
+
+		http://briantford.com/blog/angular-express
+		https://www.uno-de-piera.com/nodejs-express-4-y-angularjs/
+
+		
+**********************************
+********** INSTALLATION **********
+**********************************
+
+	MEAN is a framework for an easy starting point with MongoDB, Node.js, Express, and AngularJS based applications. (For further information visit: http://learn.mean.io/)
+	Microsoft Windows 7 Professional OS will be used to deploy the server and the database.
+	
+	-----------			
+	- Node.js -
+	-----------
+	
+		NOTE: 	npm: is used to update/install/uninstall packages and to run the server by default.
+				node: compiles the java-scripts files and run the server.
+					   
+				nodemon: this tool is used to re-start the server when the code has been modified.			
+					   
+	
+		1. Installation
+			1.1 Download and Install Node.js from its web site (http://nodejs.org/download/).
+			1.2 For automatic installation follow the steps described in the wizard setup.
+			1.3 For manual installation (No Admin or cleaner installation)
+				1.3.1. Extract the content of the msi installer using "lessmsi".
+				1.3.2. Open the environment variable window by using "rundll32 sysdm.cpl,EditEnvironmentVariables"
+					   Add to local paths the folder where the content has been extracted. (Be sure the folder contains node.exe and npm.cmd files) 
+			1.4 Test Installation
+			
+				1.4.1 Create a folder and a new file (sample.js) with the following content.
+				
+					(sample.js)
+				
+					//Lets require/import the HTTP module
+					var http = require('http');
+
+					//Lets define a port we want to listen to
+					const PORT=8080; 
+
+					//We need a function which handles requests and send response
+					function handleRequest(request, response){
+						response.end('It Works!! Path Hit ' + request.url);
+					}
+
+					//Create a server
+					var server = http.createServer(handleRequest);
+
+					//Lets start our server
+					server.listen(PORT, function(){
+						//Callback triggered when server is successfully listening. Hurray!
+						console.log("Server listening on httplocalhost%s", PORT);
+					});
+				
+				1.4.2 Run the server using the following line in the command prompt windows.
+					
+					// Run following program.
+					>> node sample.js 
+					
+					// To Test the server open a Web browser and usr the URL (If a firewall windows pop-up just ignore it)
+					http:\\localhost:8080
+			
+				1.4.3 Packages Installation and Updates 
+					
+					//npm it's the Package Manager tool (installaer, updater) used by node.js, like pip in python.
+					>> npm install -g express -> Global installation of expres using -g command
+					>> npm install express --save -> Save the dependences temporary into the current folder (app)
+					>> npm update express
+									
+					// Example -> In order to install and create an Express application. 
+					
+					//Create and initialize "package.json" -> follow the steps in the wizard to create this file.
+					>> npm init
+
+					// When entry point: (index.js) ->  index.js o app.js et.. 
+					// Install Express dependences.
+					>> npm install express --save   // Remove Save for temporary dependences
+
+					// following installation of other packages like httpdispatcher or electron.
+					>> npm install httpdispatcher --save 
+					>> npm install electron --save 
+	
+		2. Installing Dependences
+		
+			2.1 Install Packages 
+				
+				>> npm install -g gulp // Build tool
+				>> npm install -g bower // Managers Front-end packages 
+			
+				//Install MEAN CLI (Command Line interface)
+				
+				>> npm install -g mean-cli 
+				>> mean init <myApp>
+				>> cd <myApp> && npm install
+				
+				//To run use gulp or node server
+			
+			2.2 Update Packages
+
+				>> npm update -g npm  //Updating NPM
+				>> npm update -g gulp // Updating Gulp
+				>> npm update -g bower  // Updating Bower
+				
+			2.3 Clean Cache
+			
+				>> npm cache clean
+				>> bower cache clean
+ 
+			2.4 Troubleshooting
+			
+				2.4.1  Mean.io dependencies uses node-gyp with supported Python version 2.7.x. So if you see an error related to node-gyp 
+				2.4.1. Git “not found” on Windows
+			
+			2.5 Additional Dependences
+			
+				- Mongoose: The mongodb node.js driver in charge of providing elegant mongodb object modeling for node.js
+				- Passport: An authentication middleware for Node.js which supports authentication using a username and password, Facebook, Twitter, and more.
+				- Twitter Bootstrap: The most popular HTML, CSS, and JS framework for developing responsive, mobile first projects.
+				- UI Bootstrap: Bootstrap components written in pure AngularJS
+
+	-----------			
+	- MongoDB -
+	-----------
+	
+		
+	-----------			
+	- GIT -
+	-----------
+	
+		Gist is used for repository of the source-code.
+		The easiest way to install git and then run the rest of the commands through the git bash application (via command prompt) is by downloading and installing Git for Windows.
+		(See https://git-scm.com/download/win)
+
+    
+
+**********************************
+********** TECHNOLOGIES **********
+**********************************		
+		
+	Name:  Deep Vision
+		Other titles:
+			- Visual Based Node application for Deep Learning (VBNADL)  (VBNA)
+			- Schematic Node based for deep/machine learning   (SNBFDL)
+			- DeepVision
+			- Graphical Deep Nodes (GDN)
+			- Deep Graphical Node Based DGNB
+			- Node Oriented for Deep Learning (NODEEL)
+		
+	The main idea is to develop a Web Application that allows the manipulation and creation of Deep neural networks using base nodes graphs.
+	The tool will be split in two main components:
+		- Server-side: The server will be the responsible of managing the connections between the users and the data-base in order to store graphs models and configuration.
+					   Server must send and retrieve all the configuration and models of the users.
+					   
+					   Note: In
+	- Client-side:
+	
+	
+	following requisites:
+		v0.1
+			Req-001: The tool shall allow the creation of graphs using nodes.
+			Req-002: The tool shall also allow the possibility to configure the properties of each node (based in its attributes) and also create a new one.
+			
+		
+
+
+In order to do that the Web Application will be implemented using the following technologies, data-bases and Frameworks.
+
+Server-Side
+----------------
+	
+
+
+Client-Side
+----------------
